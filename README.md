@@ -1,2 +1,2 @@
-# OpenPlatform
-爱航-开放平台
+# Open
+小航书-开放平台
