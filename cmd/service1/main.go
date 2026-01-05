@@ -11,8 +11,8 @@
 package main
 
 import (
-	_ "open/api/service1/docs" // swagger 一定要有这行,指向你的文档地址
-	"open/internal/service1/webapi"
+	_ "github.com/xiaohangshuhub/open/api/service1/docs" // swagger 一定要有这行,指向你的文档地址
+	"github.com/xiaohangshuhub/open/internal/service1/webapi"
 
 	"github.com/xiaohangshuhub/go-workit/pkg/webapp"
 )

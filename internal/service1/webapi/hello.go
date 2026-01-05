@@ -1,7 +1,7 @@
 package webapi
 
 import (
-	"open/internal/service1/webapi/response"
+	"github.com/xiaohangshuhub/open/internal/service1/webapi/response"
 
 	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"
