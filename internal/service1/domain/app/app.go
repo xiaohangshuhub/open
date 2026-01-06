@@ -6,19 +6,33 @@ import (
 	"github.com/google/uuid"
 	"github.com/xiaohangshuhub/go-workit/pkg/ddd"
 	"github.com/xiaohangshuhub/open/internal/service1/domain/dic/status"
+	"github.com/xiaohangshuhub/open/internal/service1/domain/err"
+)
+
+// ClinetType 客户端类型
+type AppType int8
+
+// 客户端类型枚举
+const (
+	WebApp     AppType = iota + 1 // web应用
+	DesptopApp                    // 桌面应用
+	MobileApp                     // 移动应用
+	MiniApp                       // 小程序
+	ClientApp                     // 客户端应用
 )
 
 const (
-	nameLengthMin = 2
-	nameLengthMax = 10
+	clientNameLengthMin = 2
+	clientNameLengthMax = 10
 )
 
-type Client struct {
+// Client 客户端实体
+type App struct {
 	ddd.AggregateRoot[uuid.UUID]               // ID
 	Name                         string        // 名称
 	Key                          string        // app key
 	Security                     string        // app security
-	ClinetType                   ClinetType    // 客户端类型
+	ClinetType                   AppType       // 客户端类型
 	Status                       status.Status // 状态
 	Created                      time.Time     // 创建时间
 	CreateBy                     uuid.UUID     // 创建人
@@ -26,37 +40,37 @@ type Client struct {
 	UpdateBy                     *string       // 修改人
 }
 
-func NewClient(name string, createBy uuid.UUID, clientType ClinetType) (*Client, *Error) {
+func NewApp(name string, createBy uuid.UUID, appType AppType) (*App, *err.Error) {
 
-	client := Client{
+	app := App{
 		AggregateRoot: ddd.NewAggregateRoot(uuid.New()),
 		Key:           uuid.NewString(),
 		Security:      uuid.NewString(),
 		Status:        status.Review,
 		Created:       time.Now(),
-		ClinetType:    clientType,
+		ClinetType:    appType,
 	}
 
-	if err := client.SetName(name); err != nil {
+	if err := app.SetName(name); err != nil {
 		return nil, err
 	}
 
 	if createBy == uuid.Nil {
-		return nil, ErrCreateByEmpty
+		return nil, err.ErrCreateByEmpty
 	}
 
-	client.CreateBy = createBy
+	app.CreateBy = createBy
 
-	return &client, nil
+	return &app, nil
 }
 
 // SetName 设置客户端的名称
-func (c *Client) SetName(name string) *Error {
+func (c *App) SetName(name string) *err.Error {
 	if name == "" {
-		return ErrClientNameEmpty
+		return err.ErrNameEmpty
 	}
-	if len := len(name); len > nameLengthMax || len < nameLengthMin {
-		return ErrClientNameLengthOutOfRange
+	if len := len(name); len > clientNameLengthMax || len < clientNameLengthMin {
+		return err.ErrLengthOutOfRange
 	}
 	c.Name = name
 	return nil
