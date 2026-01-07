@@ -10,8 +10,8 @@ import (
 )
 
 const (
-	topicNameLengthMin = 2
-	topicNameLengthMax = 20
+	topicNameLengthMin = 2  // 主题名称最小长度
+	topicNameLengthMax = 20 // 主题名称最大长度
 )
 
 // Topic 主题实体
@@ -89,7 +89,7 @@ func (t *Topic) SetDesc(desc string) *err.Error {
 // SetDataStruct 设置主题数据结构
 func (t *Topic) SetDataStruct(dataStruct string) *err.Error {
 	if dataStruct == "" {
-		return err.ErrDataStructEmpty
+		return err.ErrTopicDataStructEmpty
 	}
 	t.DataStruct = dataStruct
 	return nil

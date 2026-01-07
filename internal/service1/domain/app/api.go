@@ -19,10 +19,10 @@ type API struct {
 	Updated                      *int64    // 修改时间
 	UpdateBy                     *string   // 修改人
 	AppID                        uuid.UUID // 所属应用ID
-	Documentation                string    // 文档地址
+	Docs                         string    // 文档地址
 }
 
-func NewAPI(name, version, description, endpoint, method, authType, documentation string, appID, createBy uuid.UUID) (*API, *err.Error) {
+func NewAPI(name, version, description, endpoint, method, authType, docs string, appID, createBy uuid.UUID) (*API, *err.Error) {
 
 	api := &API{
 		AggregateRoot: ddd.NewAggregateRoot(uuid.New()),
@@ -49,7 +49,7 @@ func NewAPI(name, version, description, endpoint, method, authType, documentatio
 	if err := api.SetAppID(appID); err != nil {
 		return nil, err
 	}
-	if err := api.SetDocumentation(documentation); err != nil {
+	if err := api.SetDocs(docs); err != nil {
 		return nil, err
 	}
 	if createBy == uuid.Nil {
@@ -122,11 +122,11 @@ func (a *API) SetVersion(version string) *err.Error {
 	return nil
 }
 
-// SetDocumentation 设置文档地址
-func (a *API) SetDocumentation(documentation string) *err.Error {
-	if documentation == "" {
+// SetDocs 设置文档地址
+func (a *API) SetDocs(docs string) *err.Error {
+	if docs == "" {
 		return err.ErrDescEmpty
 	}
-	a.Documentation = documentation
+	a.Docs = docs
 	return nil
 }

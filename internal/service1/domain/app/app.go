@@ -9,16 +9,16 @@ import (
 	"github.com/xiaohangshuhub/open/internal/service1/domain/err"
 )
 
-// ClinetType 客户端类型
+// AppType 应用类型
 type AppType int8
 
-// 客户端类型枚举
 const (
 	WebApp     AppType = iota + 1 // web应用
 	DesptopApp                    // 桌面应用
 	MobileApp                     // 移动应用
 	MiniApp                       // 小程序
 	ClientApp                     // 客户端应用
+	IoTApp                        // 物联网应用
 )
 
 const (
@@ -32,7 +32,8 @@ type App struct {
 	Name                         string        // 名称
 	Key                          string        // app key
 	Security                     string        // app security
-	ClinetType                   AppType       // 客户端类型
+	appType                      AppType       // 客户端类型
+	Desc                         string        // 描述
 	Status                       status.Status // 状态
 	Created                      time.Time     // 创建时间
 	CreateBy                     uuid.UUID     // 创建人
@@ -48,7 +49,7 @@ func NewApp(name string, createBy uuid.UUID, appType AppType) (*App, *err.Error)
 		Security:      uuid.NewString(),
 		Status:        status.Review,
 		Created:       time.Now(),
-		ClinetType:    appType,
+		appType:       appType,
 	}
 
 	if err := app.SetName(name); err != nil {
